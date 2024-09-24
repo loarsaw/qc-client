@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import NavBar from "@/components/header/nav";
+import StoreProvider from "./AppProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +32,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <MantineProvider>{children}</MantineProvider>
+        <StoreProvider>
+          <MantineProvider>
+            <NavBar />
+            <div className="bg-black opacity-50 min-h-[calc(100vh-80px)]">
+              {children}
+            </div>
+          </MantineProvider>
+        </StoreProvider>
       </body>
     </html>
   );
