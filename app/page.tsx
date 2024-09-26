@@ -1,12 +1,27 @@
 "use client";
+
+import { setData } from "@/redux/features/learning/learningSlice";
+import { useAppDispatch } from "@/redux/hook";
 import axiosClient from "@/utils/axiosInstance";
-import React, { use, useState } from "react";
+import { clear } from "console";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const Banner: React.FC = () => {
+  const router = useRouter();
   const [searchString, setSearchString] = useState<string>();
+  const dispatch = useAppDispatch();
+
   async function fetchTopics() {
     const data = await axiosClient.post("/get_string", { msg: searchString });
-   
+    console.log(typeof data.data.msg);
+    if (typeof data.data.msg === "object") {
+      dispatch(setData(data.data.msg));
+      router.push("/learning");
+    } else {
+      const re_parsed = JSON.parse(data.data.msg);
+      console.log(typeof re_parsed);
+    }
   }
   return (
     <div
