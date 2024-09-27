@@ -15,13 +15,13 @@ const Banner: React.FC = () => {
   async function fetchTopics() {
     const data = await axiosClient.post("/get_string", { msg: searchString });
     console.log(typeof data.data.msg);
-    if (typeof data.data.msg === "object") {
-      dispatch(setData(data.data.msg));
-      router.push("/learning");
-    } else {
-      const re_parsed = JSON.parse(data.data.msg);
-      console.log(typeof re_parsed);
-    }
+    // if (typeof data.data.msg === "object") {
+    //   dispatch(setData(data.data.msg));
+    //   router.push("/learning");
+    // } else {
+    //   const re_parsed = JSON.parse(data.data.msg);
+    //   console.log(typeof re_parsed);
+    // }
   }
   return (
     <div
