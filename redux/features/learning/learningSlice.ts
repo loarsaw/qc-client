@@ -1,12 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LearningState {
-  data: {};
+  data: {
+    description: string;
+    code: string;
+  };
   isLoading: boolean;
 }
 
 const initialState: LearningState = {
-  data: {},
+  data: {
+    code: "",
+    description: "",
+  },
   isLoading: false,
 };
 
@@ -14,7 +20,7 @@ const learningSlice = createSlice({
   name: "learning",
   initialState,
   reducers: {
-    setData(state, action: PayloadAction<string>) {
+    setData(state, action: PayloadAction<LearningState["data"]>) {
       state.data = action.payload;
     },
 

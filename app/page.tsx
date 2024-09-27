@@ -1,20 +1,13 @@
 "use client";
 
-import { setData } from "@/redux/features/learning/learningSlice";
-import { useAppDispatch } from "@/redux/hook";
 import axiosClient from "@/utils/axiosInstance";
-import { clear } from "console";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Banner: React.FC = () => {
-  const router = useRouter();
   const [searchString, setSearchString] = useState<string>();
-  const dispatch = useAppDispatch();
 
   async function fetchTopics() {
-    const data = await axiosClient.post("/get_string", { msg: searchString });
-    console.log(typeof data.data.msg);
+    await axiosClient.post("/get_string", { msg: searchString });
     // if (typeof data.data.msg === "object") {
     //   dispatch(setData(data.data.msg));
     //   router.push("/learning");
@@ -63,38 +56,38 @@ const Banner: React.FC = () => {
 
 export default Banner;
 
-const CardGrid: React.FC = () => {
-  const cards = [
-    {
-      title: "Data Structure and Algorithm",
-      description: "Description for card 1",
-    },
-    { title: "Python", description: "Description for card 2" },
-    { title: "", description: "Description for card 3" },
-    { title: "Card 4", description: "Description for card 4" },
-  ];
+// const CardGrid: React.FC = () => {
+//   const cards = [
+//     {
+//       title: "Data Structure and Algorithm",
+//       description: "Description for card 1",
+//     },
+//     { title: "Python", description: "Description for card 2" },
+//     { title: "", description: "Description for card 3" },
+//     { title: "Card 4", description: "Description for card 4" },
+//   ];
 
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-      {cards.map((card, index) => (
-        <div
-          key={index}
-          className="bg-white flex  flex-col justify-between rounded-lg shadow-md p-4 h-[15rem] w-48"
-        >
-          <div>
-            <h2 className="text-xl font-bold">{card.title}</h2>
-            <p className="mt-2">{card.description}</p>
-          </div>
-          <div className="bottom-0">
-            <div className="bg-gray-400 p-2 rounded-lg text-white text-center">
-              Start
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
+//   return (
+//     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+//       {cards.map((card, index) => (
+//         <div
+//           key={index}
+//           className="bg-white flex  flex-col justify-between rounded-lg shadow-md p-4 h-[15rem] w-48"
+//         >
+//           <div>
+//             <h2 className="text-xl font-bold">{card.title}</h2>
+//             <p className="mt-2">{card.description}</p>
+//           </div>
+//           <div className="bottom-0">
+//             <div className="bg-gray-400 p-2 rounded-lg text-white text-center">
+//               Start
+//             </div>
+//           </div>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 
 // const Page: React.FC = () => {
 //   return (
