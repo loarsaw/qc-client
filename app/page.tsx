@@ -1,21 +1,43 @@
 "use client";
 
+import {
+  setLoading,
+  setPostArray,
+} from "@/redux/features/contentSlice/contentSlice";
+import { setData } from "@/redux/features/learning/learningSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import axiosClient from "@/utils/axiosInstance";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const Banner: React.FC = () => {
   const [searchString, setSearchString] = useState<string>();
+  const { post_array } = useAppSelector((state) => state.content);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    getResources();
+  }, []);
+
+  async function getResources() {
+    const data = await axiosClient.get("/get_resources");
+    dispatch(setPostArray(data.data));
+    dispatch(setLoading(false));
+  }
 
   async function fetchTopics() {
-    await axiosClient.post("/get_string", { msg: searchString });
-    // if (typeof data.data.msg === "object") {
-    //   dispatch(setData(data.data.msg));
-    //   router.push("/learning");
-    // } else {
-    //   const re_parsed = JSON.parse(data.data.msg);
-    //   console.log(typeof re_parsed);
-    // }
+    const data = await axiosClient.post("/get_string", { msg: searchString });
+    if (typeof data.data.msg === "object") {
+      dispatch(setData(data.data.msg));
+      router.push("/learning");
+    } else {
+      const re_parsed = JSON.parse(data.data.msg);
+      console.log(typeof re_parsed);
+    }
   }
+
+  console.log(post_array, "HU");
   return (
     <div
       className="relative bg-cover bg-center h-64"
@@ -37,65 +59,55 @@ const Banner: React.FC = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   fetchTopics();
-                  // console.log("PRessed");
                 }
               }}
             />
-            {/* <div className="bg-blue-400 w-14 flex  rounded-full"> */}
-            {/* <button>GO</button> */}
-            {/* </div> */}
           </div>
         </div>
       </div>
-      {/* <div className="flex justify-center items-center">
-        <CardGrid />
-      </div> */}
+      <div className="flex justify-center">
+        <div className="grid grid-cols-4 mt-8">
+          {post_array.map(
+            (post: { msg: string; links: []; keywords: [] }, index) => {
+              const matches = post.msg.match(/\*\*(.*?)\*\*/g) || [];
+              const title = matches
+                .map((match: string) => match.slice(2, -2))
+                .join(" ");
+              return (
+                <div
+                  key={index}
+                  className="bg-white mt-3 mx-2 flex flex-col justify-between rounded-lg shadow-md p-4 h-full w-48"
+                >
+                  <div>
+                    <h2 className="text-md line-clamp-3">{title}</h2>
+                  </div>
+                  <div className="flex justify-end text-sm mt-3">
+                    <button
+                      onClick={() => {
+                        dispatch(
+                          setData({
+                            description: post.msg,
+                            code: "",
+                            title: title,
+                            links: post.links,
+                            keywords: post.keywords,
+                          })
+                        );
+                        router.push(`/learning`);
+                      }}
+                      className="bg-blue-500 w-full hover:bg-blue-700 hover text-white font-bold py-2 px-4 rounded"
+                    >
+                      Learn
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Banner;
-
-// const CardGrid: React.FC = () => {
-//   const cards = [
-//     {
-//       title: "Data Structure and Algorithm",
-//       description: "Description for card 1",
-//     },
-//     { title: "Python", description: "Description for card 2" },
-//     { title: "", description: "Description for card 3" },
-//     { title: "Card 4", description: "Description for card 4" },
-//   ];
-
-//   return (
-//     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-//       {cards.map((card, index) => (
-//         <div
-//           key={index}
-//           className="bg-white flex  flex-col justify-between rounded-lg shadow-md p-4 h-[15rem] w-48"
-//         >
-//           <div>
-//             <h2 className="text-xl font-bold">{card.title}</h2>
-//             <p className="mt-2">{card.description}</p>
-//           </div>
-//           <div className="bottom-0">
-//             <div className="bg-gray-400 p-2 rounded-lg text-white text-center">
-//               Start
-//             </div>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// const Page: React.FC = () => {
-//   return (
-//     <div>
-//       <Banner />
-//       <CardGrid />
-//     </div>
-//   );
-// };
-
-// export default Page;

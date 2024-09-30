@@ -2,40 +2,36 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LearningState {
   data: {
-    title: string;
-    description: string;
-    code: string;
-    links: [];
-    keywords: [];
+    msg: string;
   };
+  post_array: [];
   isLoading: boolean;
 }
 
 const initialState: LearningState = {
   data: {
-    title: "",
-    code: "",
-    description: "",
-    links: [],
-    keywords: [],
+    msg: "",
   },
+  post_array: [],
   isLoading: false,
 };
 
-const learningSlice = createSlice({
-  name: "learning",
+const contentSlice = createSlice({
+  name: "content",
   initialState,
   reducers: {
     setData(state, action: PayloadAction<LearningState["data"]>) {
       state.data = action.payload;
     },
-
+    setPostArray(state, action: PayloadAction<LearningState["post_array"]>) {
+      state.post_array = action.payload;
+    },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
   },
 });
 
-export const { setData, setLoading } = learningSlice.actions;
+export const { setData, setLoading, setPostArray } = contentSlice.actions;
 
-export default learningSlice.reducer;
+export default contentSlice.reducer;
