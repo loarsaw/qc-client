@@ -17,11 +17,10 @@ interface LearningInfoState {
 }
 
 const LearningPage: React.FC = () => {
-  // Select the learningInfo data from the Redux state
   const { data }: LearningInfoState = useAppSelector(
     (state) => state.learningInfo
   );
-
+  console.log(data);
   return (
     <div className="text-white p-5">
       <div className="flex flex-row">
@@ -36,12 +35,6 @@ const LearningPage: React.FC = () => {
             </div>
             <div>
               <Thumbsdown />
-            </div>
-            <div>
-              <Bookmark />
-            </div>
-            <div>
-              <EditPencil />
             </div>
           </div>
           <Markdown>{data?.description || "No description available"}</Markdown>
