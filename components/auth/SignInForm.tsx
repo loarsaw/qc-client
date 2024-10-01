@@ -1,11 +1,13 @@
 "use client";
 import axiosClient from "@/utils/axiosInstance";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const SignInForm = () => {
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState<string>("");
+  const router = useRouter();
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const onSubmit = async () => {
     setLoading(true);
@@ -75,20 +77,28 @@ const SignInForm = () => {
             Remember me
           </label>
         </div>
-        <div className="text-sm">
+        {/* <div className="text-sm">
           <a
             href="#"
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
             Forgot your password?
           </a>
-        </div>
+        </div> */}
       </div>
       <button
         onClick={onSubmit}
         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         {loading ? "Loading..." : "Sign In"}
+      </button>
+      <button
+        onClick={() => {
+          router.push("/signup");
+        }}
+        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue mt-4  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Sign Up
       </button>
     </div>
   );
