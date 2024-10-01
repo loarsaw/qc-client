@@ -17,12 +17,12 @@ const NavBar = () => {
         <nav className="bg-white dark:bg-gray-800 p-4 shadow-md flex h-20 justify-between items-center">
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">quickcourse.xyz</h1>
             <div className="flex items-center space-x-4">
-                <button
+                {/* <button
                     onClick={toggleDarkMode}
                     className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 rounded"
                 >
                     {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
+                </button> */}
                 <button className="bg-blue-500 text-white px-3 py-2 rounded">Login</button>
             </div>
         </nav>

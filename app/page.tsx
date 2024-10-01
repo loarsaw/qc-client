@@ -52,19 +52,16 @@ const Banner: React.FC = () => {
   }
 
   return (
-    <div
-      className="relative bg-cover bg-center h-64"
-      style={{ backgroundImage: "url('/path/to/your/image.jpg')" }}
-    >
+    <div className="relative bg-center h-64">
       <div className="absolute inset-0 "></div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
         <h1 className="text-4xl font-bold">Quick Course</h1>
         <p className="mt-2 text-lg">Choose your learning path</p>
       </div>
       <div className="mb-4">
-        <div className="flex justify-center items-center">
-          <div className="bg-white flex flex-row justify-between p-4 w-[40rem] rounded-full">
-            <div className="w-[35rem]">
+        <div className="flex justify-center items-center px-2">
+          <div className="bg-white flex flex-row justify-between p-4 w-full md:w-[40rem] rounded-full">
+            <div className="md:w-[35rem]">
               <input
                 type="text"
                 className="bg-transparent w-full focus:outline-none"
@@ -81,7 +78,7 @@ const Banner: React.FC = () => {
             <div className="w-[5rem] flex justify-end">
               <svg
                 aria-hidden="true"
-                className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="w-6 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -100,9 +97,12 @@ const Banner: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center">
-        <div className="grid grid-cols-4 mt-8">
+        <div className="grid md:grid-cols-4 grid-cols-2 mt-8">
           {filteredArray.map(
-            (post: { msg: string; links: []; keywords: [] }, index) => {
+            (
+              post: { msg: string; links: []; keywords: []; uid: string },
+              index
+            ) => {
               const matches = post.msg.match(/\*\*(.*?)\*\*/g) || [];
               const title = matches
                 .map((match: string) => match.slice(2, -2))
@@ -110,7 +110,7 @@ const Banner: React.FC = () => {
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-lg shadow-md p-4 mt-10 mx-5 w-48"
+                  className="bg-white rounded-lg shadow-md p-4 mt-10 mx-5 md:w-48"
                 >
                   <div>
                     <h2 className="text-md line-clamp-3">{title}</h2>
@@ -127,7 +127,7 @@ const Banner: React.FC = () => {
                             keywords: post.keywords,
                           })
                         );
-                        router.push(`/learning`);
+                        router.push(`/learning/${post.uid}`);
                       }}
                       className="bg-blue-500 w-full hover:bg-blue-700 hover text-white font-bold py-2 px-4 rounded"
                     >
