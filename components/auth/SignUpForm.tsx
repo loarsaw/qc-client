@@ -10,7 +10,6 @@ const SignInForm = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const router = useRouter();
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -33,20 +32,13 @@ const SignInForm = () => {
 
     setLoading(true);
     try {
-      const { data } = await axiosClient.post("/auth/login", {
-        email,
-        password,
-      });
-      if (rememberMe) {
-        localStorage.setItem("token", data.token);
-      } else {
-        sessionStorage.setItem("token", data.token);
-      }
+      await axiosClient.post("/auth/register", { email, password });
       setLoading(false);
-      router.push("/dashboard");
-    } catch (e) {
+      router.push("/login");
+    } catch (error) {
       setError("Invalid email or password.");
       setLoading(false);
+      console.log(error);
     }
   };
 
