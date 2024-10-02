@@ -1,9 +1,8 @@
 export interface LearningPost {
-  data: {
-    msg: string;
-    uid: string;
-    keywords: string[];
-    _id: string;
-    links: string[];
-  };
+  uid: string;
+  keywords: string[];
+  _id: string;
+  links: string[];
+  description: string;
+  code: string;
 }

@@ -1,8 +1,10 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8000",
-  // timeout: 10000,
+  baseURL:
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:8000"
+      : "https://api.quickcourse.xyz/",
   headers: {
     "Content-Type": "application/json",
   },

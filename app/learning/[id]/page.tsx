@@ -5,20 +5,20 @@ import Markdown from "react-markdown";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const post = await getLearningPost(params.id);
-  const matches = post.data.msg.match(/\*\*(.*?)\*\*/g) || [];
+  const matches = post.description.match(/\*\*(.*?)\*\*/g) || [];
   const title = matches.map((match: string) => match.slice(2, -2)).join(" ");
   return {
     title: `${title} | quickcourse.xyz`,
   };
 }
-
 export default async function LearningPage({
   params,
 }: {
   params: { id: string };
 }) {
   const post = await getLearningPost(params.id);
-  const matches = post.data.msg.match(/\*\*(.*?)\*\*/g) || [];
+  console.log(post);
+  const matches = post.description.match(/\*\*(.*?)\*\*/g) || [];
   const title = matches.map((match: string) => match.slice(2, -2)).join(" ");
   return (
     <div className="text-white p-5">
@@ -36,15 +36,17 @@ export default async function LearningPage({
               <Thumbsdown />
             </div>
           </div>
-          <Markdown>{post.data.msg || "No description available"}</Markdown>
-          {/* <Markdown>{data?.code || "No code available"}</Markdown> */}
+          <Markdown>
+            {post.description || "No description available"}
+          </Markdown>
+          <Markdown>{post?.code || "No code available"}</Markdown>
         </div>
         <div className="md:w-[30%] w-full p-3 h-32">
           <div>
             <p className="text">Useful Links</p>
           </div>
           <div>
-            {post.data.links.map((link: string, index: number) => (
+            {post.links.map((link: string, index: number) => (
               <p key={index} className="text-wrap">
                 <a
                   target="_blank"

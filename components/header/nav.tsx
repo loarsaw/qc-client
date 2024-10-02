@@ -1,18 +1,17 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const NavBar = () => {
-  const [darkMode, setDarkMode] = useState(false);
+//   const [darkMode, setDarkMode] = useState(false);
   const router = useRouter();
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    if (darkMode) {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
-  };
+//   const toggleDarkMode = () => {
+//     setDarkMode(!darkMode);
+//     if (darkMode) {
+//       document.documentElement.classList.remove("dark");
+//     } else {
+//       document.documentElement.classList.add("dark");
+//     }
+//   };
 
   return (
     <nav className="bg-white dark:bg-gray-800 p-4 shadow-md flex h-20 justify-between items-center">
