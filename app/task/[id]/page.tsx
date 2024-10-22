@@ -17,7 +17,6 @@ export default async function LearningPage({
   params: { id: string };
 }) {
   const post = await getLearningPost(params.id);
-  console.log(post);
   const matches = post.description.match(/\*\*(.*?)\*\*/g) || [];
   const title = matches.map((match: string) => match.slice(2, -2)).join(" ");
   return (
