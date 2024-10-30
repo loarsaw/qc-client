@@ -9,6 +9,7 @@ interface LearningState {
     keywords: [];
   };
   isLoading: boolean;
+  project_id: string;
 }
 
 const initialState: LearningState = {
@@ -20,6 +21,7 @@ const initialState: LearningState = {
     keywords: [],
   },
   isLoading: false,
+  project_id: "react",
 };
 
 const learningSlice = createSlice({
@@ -29,13 +31,15 @@ const learningSlice = createSlice({
     setData(state, action: PayloadAction<LearningState["data"]>) {
       state.data = action.payload;
     },
-
+    setProjectId(state, action: PayloadAction<string>) {
+      state.project_id = action.payload;
+    },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
   },
 });
 
-export const { setData, setLoading } = learningSlice.actions;
+export const { setData, setLoading , setProjectId} = learningSlice.actions;
 
 export default learningSlice.reducer;

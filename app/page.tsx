@@ -2,24 +2,27 @@
 
 import {
   setLoading,
-  setPostArray,
+  // setPostArray,
 } from "@/redux/features/contentSlice/contentSlice";
-import { setData } from "@/redux/features/learning/learningSlice";
+import { setProjectId } from "@/redux/features/learning/learningSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import axiosClient from "@/utils/axiosInstance";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-
+import { techData } from '@/data/data'
 const Banner: React.FC = () => {
   const [searchString, setSearchString] = useState<string>("");
   const { post_array, isLoading } = useAppSelector((state) => state.content);
-  const [filteredArray, setFilteredArray] = useState([]);
+  const [, setFilteredArray] = useState([]);
   const dispatch = useAppDispatch();
   const router = useRouter();
-
-  useEffect(() => {
-    getResources();
-  }, []);
+  const params = useSearchParams()
+  console.log(params.get("token"))
+  const token = params.get("token")
+  localStorage.setItem("keyas", token ?? "")
+  // useEffect(() => {
+  //   getResources();
+  // }, []);
 
   useEffect(() => {
     if (searchString !== "") {
@@ -34,11 +37,11 @@ const Banner: React.FC = () => {
     }
   }, [searchString, post_array]);
 
-  async function getResources() {
-    const data = await axiosClient.get("/get_resources");
-    dispatch(setPostArray(data.data));
-    dispatch(setLoading(false));
-  }
+  // async function getResources() {
+  //   const data = await axiosClient.get("/get_resources");
+  //   dispatch(setPostArray(data.data));
+  //   dispatch(setLoading(false));
+  // }
 
   async function fetchTopics() {
     dispatch(setLoading(true));
@@ -101,46 +104,35 @@ const Banner: React.FC = () => {
       </div>
       <div className="flex justify-center">
         <div className="grid md:grid-cols-4 grid-cols-2 mt-8">
-          {filteredArray.map(
+          {techData.map(
             (
-              post: {
-                description: string;
-                links: [];
-                keywords: [];
-                uid: string;
-                code: string;
-              },
+              post,
               index
             ) => {
-              const matches = post.description.match(/\*\*(.*?)\*\*/g) || [];
-              const title = matches
-                .map((match: string) => match.slice(2, -2))
-                .join(" ");
+
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-lg shadow-md p-4 mt-10 mx-5 md:w-48"
+                  className="bg-white relative rounded-lg shadow-md p-4 mt-10 mx-5 md:w-[15rem]"
                 >
                   <div>
-                    <h2 className="text-md line-clamp-3">{title}</h2>
+                    <h2 className="text-md line-clamp-3">{post.title}</h2>
                   </div>
-                  <div className="flex justify-end text-sm mt-3">
+                  <p className="line-clamp-3">
+                    {post.description}
+                  </p>
+                  <div>{post.category}</div>
+                  <div className="flex  justify-end text-sm mt-3">
                     <button
                       onClick={() => {
                         dispatch(
-                          setData({
-                            description: post.description,
-                            code: post.code,
-                            title: title,
-                            links: post.links,
-                            keywords: post.keywords,
-                          })
+                          setProjectId(String(post.id))
                         );
-                        router.push(`/learning/${post.uid}`);
+                        router.push("/task")
                       }}
                       className="bg-blue-500 w-full hover:bg-blue-700 hover text-white font-bold py-2 px-4 rounded"
                     >
-                      Learn
+                      Start Guided Projects
                     </button>
                   </div>
                 </div>
