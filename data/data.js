@@ -447,6 +447,7 @@ export const pythonProjects = [
 
 export const djangoProjects = [
   {
+    "id": "6",
     "projectName": "Personal Blog",
     "description": "A simple blog where users can create, read, update, and delete blog posts.",
     "learnt": [
@@ -457,6 +458,7 @@ export const djangoProjects = [
     ]
   },
   {
+    "id": "6",
     "projectName": "To-Do List App",
     "description": "A to-do list application where users can add, edit, and delete tasks and mark them as completed.",
     "learnt": [
@@ -467,6 +469,7 @@ export const djangoProjects = [
     ]
   },
   {
+    "id": "6",
     "projectName": "Weather App",
     "description": "An app that displays weather information for a specified city using an external weather API.",
     "learnt": [
@@ -477,6 +480,7 @@ export const djangoProjects = [
     ]
   },
   {
+    "id": "6",
     "projectName": "Portfolio Website",
     "description": "A portfolio website to showcase projects, skills, and contact information with admin interface management.",
     "learnt": [
@@ -487,6 +491,7 @@ export const djangoProjects = [
     ]
   },
   {
+    "id": "6",
     "projectName": "Simple E-Commerce Site",
     "description": "A basic e-commerce website where users can browse products, view details, and add items to a cart.",
     "learnt": [
@@ -501,6 +506,7 @@ export const djangoProjects = [
 
 export const reactProjects = [
   {
+    "id": "1",
     "projectName": "To-Do List",
     "description": "A simple to-do list app where users can add, delete, and mark tasks as completed.",
     "learnt": [
@@ -511,6 +517,7 @@ export const reactProjects = [
     ]
   },
   {
+    "id": "1",
     "projectName": "Weather App",
     "description": "An app that fetches and displays weather data for a user's location using a weather API.",
     "learnt": [
@@ -521,6 +528,7 @@ export const reactProjects = [
     ]
   },
   {
+    "id": "1",
     "projectName": "Calculator",
     "description": "A basic calculator app with functionality for addition, subtraction, multiplication, and division.",
     "learnt": [
@@ -531,6 +539,7 @@ export const reactProjects = [
     ]
   },
   {
+    "id": "1",
     "projectName": "Movie Search App",
     "description": "An app to search for movies using an external API, displaying movie information like title, rating, and poster.",
     "learnt": [
@@ -541,6 +550,7 @@ export const reactProjects = [
     ]
   },
   {
+    "id": "1",
     "projectName": "Portfolio Website",
     "description": "A personal portfolio website showcasing projects, skills, and contact information.",
     "learnt": [

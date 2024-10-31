@@ -5,7 +5,9 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import NavBar from "@/components/header/nav";
 import StoreProvider from "./AppProvider";
-
+import { Suspense } from "react";
+import { Notifications } from '@mantine/notifications'
+import '@mantine/notifications/styles.css';
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -35,7 +37,10 @@ export default function RootLayout({
         <StoreProvider>
           <MantineProvider>
             <NavBar />
-            <div className="min-h-[calc(100vh-80px)]">{children}</div>
+            <Notifications />
+            <Suspense>
+              <div className="min-h-[calc(100vh-80px)]">{children}</div>
+            </Suspense>
           </MantineProvider>
         </StoreProvider>
       </body>

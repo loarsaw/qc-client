@@ -9,7 +9,7 @@ interface LearningState {
     keywords: [];
   };
   isLoading: boolean;
-  project_id: string;
+  project_id: string | null;
 }
 
 const initialState: LearningState = {
@@ -21,7 +21,7 @@ const initialState: LearningState = {
     keywords: [],
   },
   isLoading: false,
-  project_id: "react",
+  project_id: null,
 };
 
 const learningSlice = createSlice({
@@ -40,6 +40,6 @@ const learningSlice = createSlice({
   },
 });
 
-export const { setData, setLoading , setProjectId} = learningSlice.actions;
+export const { setData, setLoading, setProjectId } = learningSlice.actions;
 
 export default learningSlice.reducer;

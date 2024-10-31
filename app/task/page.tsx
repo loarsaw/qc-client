@@ -3,22 +3,24 @@ import { useAppSelector } from "@/redux/hook";
 import React, { useEffect, useState } from "react";
 import * as projects from '@/data/data'
 import axiosClient from "@/utils/axiosInstance";
+import { notifications } from "@mantine/notifications";
 
 const LearningPage: React.FC = () => {
-  const [projectList, setProjectList] = useState<any[]>([])
+  const [projectList, setProjectList] = useState<{ id: string, projectName: string, description: string, learnt: string[] }[]>()
+  const [startProjectLoading, setStartProjectLoading] = useState(false)
+  const { data: { userName } } = useAppSelector((state) => state.user)
+  const [url, setUrl] = useState<string | null>(null)
   const [projectDetails, setProjectDetails] = useState<{
     id: string,
     projectName: string,
     description: string,
-    category: string,
     learnt: string[],
-    // requirements: string[]
   }>()
-  const { project_id }: { project_id: string } = useAppSelector(
+  const { project_id }: { project_id: string | null } = useAppSelector(
     (state) => state.learningInfo
   );
-  function _filterProject() {
-    switch (project_id) {
+  function _filterProject(id: string) {
+    switch (id) {
       case "1": setProjectList(projects.reactProjects); break;
       case "2": setProjectList(projects.vueProjects); break;
       case "3": setProjectList(projects.vueProjects); break;
@@ -30,17 +32,45 @@ const LearningPage: React.FC = () => {
     }
   }
   useEffect(() => {
-    _filterProject()
+    if (project_id) {
+      _filterProject(project_id)
+    } else {
+      const id = localStorage.getItem("asdfqc") ?? ""
+      _filterProject(id)
+    }
   }, [project_id])
 
   useEffect(() => {
-    setProjectDetails(projectList[0])
+    if (projectList && projectList?.length > 0) {
+      setProjectDetails(projectList[0])
+    }
   }, [projectList])
-  // console.log(projectDetails, projectList, project_id)
 
   async function startProjects() {
-    const data = await axiosClient.post("/create_repository", {})
-    console.log(data)
+    if (!userName) {
+      notifications.show({
+        title: "Not Authenticated",
+        message: "Need to signin first"
+      })
+      return;
+    }
+    try {
+      setStartProjectLoading(true)
+      const { data } = await axiosClient.post("/create_repository", { project_id: String(project_id) })
+      setStartProjectLoading(false)
+      notifications.show({
+        title: "Success",
+        message: "Successfully created a Repository"
+      })
+      setUrl(data.url)
+    } catch {
+      setStartProjectLoading(false)
+      notifications.show({
+        title: "Error Occurred",
+        message: "Try Again in some time"
+      })
+
+    }
   }
 
   return (
@@ -76,9 +106,21 @@ const LearningPage: React.FC = () => {
                 }
               </div>
             </div>
+            {url && (
+              <div
+                onClick={() => {
+                  // if (url) {
+
+                  window.open(url)
+                  // }
+                }}
+                className="w-[10rem] p-4 rounded-md items-center justify-center bg-blue-400">Open Project</div>
+            )}
             <div
               onClick={startProjects}
-              className="w-[10rem] p-4 rounded-md items-center justify-center bg-blue-400">Start Project</div>
+              className="w-[10rem] p-4 rounded-md items-center justify-center bg-blue-400">{
+                startProjectLoading ? "Initializing " : "Start Project"
+              }</div>
           </div>
         </div>
 

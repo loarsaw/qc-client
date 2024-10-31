@@ -10,7 +10,6 @@ interface UserInterface {
 const initialState: UserInterface = {
   data: {
     userName: "",
-    // msg: "",
   },
   isLoading: false,
 };
@@ -23,12 +22,12 @@ const userSlice = createSlice({
       state.data = action.payload;
     },
 
-    setLoading(state, action: PayloadAction<boolean>) {
+    setUserLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
   },
 });
 
-export const { setUserData, setLoading } = userSlice.actions;
+export const { setUserData, setUserLoading } = userSlice.actions;
 
 export default userSlice.reducer;

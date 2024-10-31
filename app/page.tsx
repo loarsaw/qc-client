@@ -1,15 +1,13 @@
 "use client";
 
-import {
-  setLoading,
-  // setPostArray,
-} from "@/redux/features/contentSlice/contentSlice";
+
 import { setProjectId } from "@/redux/features/learning/learningSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import axiosClient from "@/utils/axiosInstance";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { techData } from '@/data/data'
+import { setUserData, setUserLoading } from "@/redux/features/userSlice/userSlice";
 const Banner: React.FC = () => {
   const [searchString, setSearchString] = useState<string>("");
   const { post_array, isLoading } = useAppSelector((state) => state.content);
@@ -17,12 +15,18 @@ const Banner: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = useSearchParams()
-  console.log(params.get("token"))
-  const token = params.get("token")
-  localStorage.setItem("keyas", token ?? "")
-  // useEffect(() => {
-  //   getResources();
-  // }, []);
+  useEffect(() => {
+    getResources();
+  }, []);
+
+  useEffect(() => {
+    const token = params.get("token")
+    if (token !== null) {
+      localStorage.setItem("qc_key", token)
+      router.push("/")
+    }
+
+  }, [params])
 
   useEffect(() => {
     if (searchString !== "") {
@@ -37,23 +41,33 @@ const Banner: React.FC = () => {
     }
   }, [searchString, post_array]);
 
-  // async function getResources() {
-  //   const data = await axiosClient.get("/get_resources");
-  //   dispatch(setPostArray(data.data));
-  //   dispatch(setLoading(false));
-  // }
-
-  async function fetchTopics() {
-    dispatch(setLoading(true));
+  async function getResources() {
+    dispatch(setUserLoading(true))
     try {
-      const data = await axiosClient.post("/get_string", { msg: searchString });
-      dispatch(setLoading(false));
-      router.push(`/learning/${data.data.uid}`);
-    } catch (error) {
-      console.log(error);
-      dispatch(setLoading(false));
+      const { data } = await axiosClient.get("/getUser");
+      const userData = {
+        userName: data.username
+      }
+      dispatch(setUserData(userData))
+      dispatch(setUserLoading(false));
+    } catch {
+      setUserLoading(false)
     }
+
+
   }
+
+  // async function fetchTopics() {
+  //   dispatch(setLoading(true));
+  //   try {
+  //     const data = await axiosClient.post("/get_string", { msg: searchString });
+  //     dispatch(setLoading(false));
+  //     router.push(`/learning/${data.data.uid}`);
+  //   } catch (error) {
+  //     console.log(error);
+  //     dispatch(setLoading(false));
+  //   }
+  // }
 
   return (
     <div className="relative bg-center h-64">
@@ -73,7 +87,7 @@ const Banner: React.FC = () => {
                 onChange={(e) => setSearchString(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    fetchTopics();
+                    // fetchTopics();
                   }
                 }}
               />
@@ -128,6 +142,7 @@ const Banner: React.FC = () => {
                         dispatch(
                           setProjectId(String(post.id))
                         );
+                        localStorage.setItem("asdfqc", String(post.id))
                         router.push("/task")
                       }}
                       className="bg-blue-500 w-full hover:bg-blue-700 hover text-white font-bold py-2 px-4 rounded"
